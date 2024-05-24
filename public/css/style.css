@@ -1,0 +1,84 @@
+body {
+    height: 100vh;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    background: linear-gradient(180deg, rgb(255, 255, 255) 0%, rgb(239, 255, 241) 40%, rgb(181, 255, 186) 100%);
+   
+}
+input{
+	width: 100%;
+	box-sizing: border-box;
+	box-shadow: none;
+	outline: none;
+	border: none;
+	border-bottom: 2px solid #999;
+}
+
+.logovpbank {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    position: relative;
+    margin: 200px 0px 50px 0px;
+    
+}
+.logovpbank > div {
+    height: fit-content;
+    text-align: center;
+    justify-content: center;
+    font-weight: bold;
+    color: rgb(4, 131, 21);
+    font-size: 50px;
+
+    
+
+    
+}
+
+.Tittle {
+    position: relative;
+    font-size: 40px;
+    font-weight: bold;
+    bottom: 40px;
+}
+.input {
+    width: 300px;
+    display: flex;
+    justify-content:space-between ;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.form-login{
+    
+    padding: 70px 80px 50px 80px ;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    background: rgba(255, 255, 255, 0.705);
+}
+.form-login:hover>:nth-child(1) {
+    color: rgb(4, 131, 21);
+}
+.form-login:hover {
+    cursor: pointer;
+    transition: box-shadow ease 0.5s;
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.btn {
+    cursor: pointer;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    background: rgb(129, 133, 129);
+    color: rgb(247, 247, 247);
+}
+.btn:hover {
+    transition: background ease 0.5s;
+    cursor: pointer;
+    font-weight: bold;
+    background: rgb(4, 131, 21);
+}
