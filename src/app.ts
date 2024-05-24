@@ -12,7 +12,7 @@ export const app = express();
 app.use(express.json())
 
 // Express configuration
-app.set("port", process.env.PORT || 80);
+app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 
