@@ -31,7 +31,6 @@ export class UserModel {
     static readonly TABLE_NAME = "Customer360-account"
     static readonly dynamoClient = new AWS.DynamoDB.DocumentClient();
     static getUser = async(query: QueryUser): Promise<UserInterface[]> => {
-       
         const params: AWS.DynamoDB.DocumentClient.ScanInput = {
             TableName: UserModel.TABLE_NAME,
             ExpressionAttributeValues: {

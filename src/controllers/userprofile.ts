@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import { ProfileCustomer } from "../model/profileCustomer";
 
 export const customerProfileRouter = Router();
 
@@ -40,8 +41,17 @@ const mockData2 = {
 customerProfileRouter.get("/search", async (req: Request, res: Response) => {
     try{
         console.log(req.query)
-        
-        return res.send(mockData);
+        const value = req.query.value as string
+        const matchCustomer = await ProfileCustomer.queryBriefUser({phonenumber: value, username: value})
+        const data = []
+        for(let i = 0; i < matchCustomer.length; i++) {
+            data.push({
+                id: matchCustomer[i].customerid,
+                username: matchCustomer[i].username,
+                phonenumber: matchCustomer[i].phonenumber
+            })
+        }
+        return res.send(data);
     } catch(err) {
         return res.status(500).send({message: "Unknown err"})
     }
@@ -52,7 +62,8 @@ customerProfileRouter.get("/search", async (req: Request, res: Response) => {
 customerProfileRouter.get("/:id",async (req: Request, res: Response)  => {
     try{
       console.log(req.params);
-      return res.status(200).send(mockData2)
+      const id = req.params.id
+      return res.status(200).send(await ProfileCustomer.getUser(id))
     } catch(err) {
         return res.status(500).send({message: "Unknown err"})
     }

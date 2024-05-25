@@ -36,30 +36,35 @@
                     </form>
             </div>
             <div id="profile-user">
-                <div > Mã người dùng: <span id="userid">2131232131232</span> </div>
+                <div > Mã người dùng: <span id="userid"></span> </div>
                 <div> 
                     <h4>Thông tin chung</h4>
                     
-                    <div> Họ tên: <span id="username"></span></div>
-                    <div> Căn cước</div>
-                    <div> Email:</div>
-                    <div> Số điện thoại: <span id="phonenumber"></span> </div>
-                    <div> Địa chỉ: </div>
+                    <div> <span class="tittle-name" >tên: </span><span id="username"></span></div>
+                    <div> <span class="tittle-name" >Căn cước: </span><span id="cccd"></span></div>
+                    <div> <span class="tittle-name" >Ngáy sinh: </span><span id="birthday"></span> Giới tính <span id="gender"></span></div>
+                    <div> <span class="tittle-name" >Số điện thoại: </span><span id="phonenumber"></span> </div>
+                    <div> <span class="tittle-name" >Địa chỉ: </span><span id="address"></span></div>
+                    <div> <span class="tittle-name" >Quê quán: </span><span id="hometown"></span></div>
+                    <div> <span class="tittle-name" >Sở thích: </span><span id="hobby"></span></div>
                 </div>
                 <div class="line-1"></div>
                 <div>
-                    <h4>Thông tin tín dụng</h4>
+                    <h4>Thông tin tài chính</h4>
                     
-                    <div>Đang nợ</div>
+                    <div> <span class="tittle-name" >Nợ thẻ tín dụng:</span> 5567.000 VNĐ </div>
+                    <div> <span class="tittle-name" >Nợ thế chấp:</span> 15.000.000 VNĐ</div>
+                    <div> <span class="tittle-name" >Nợ tín chấp: </span>0 VNĐ</div>
                 </div>
                 <div class="line-1"></div>
                 <div>
-                    <h4>Thông tin giao dịch</h4>
+                    <h4>Thói quen chi tiêu</h4>
                     
-
-                    <div>Lịch sử giao dịch</div>
-                    <div>Mua hàng tại ....</div>
-                    <div>Mua hàng tại ....</div></div>
+                    <div><span class="tittle-name"> giao dịch có tổng lượng lớn nhất: </span><span id="trans_type_largest_amt"></span>, tổng <span id="largest_amt_sum"></span> VNĐ/tháng</div>
+                    <div><span class="tittle-name">Hãng taxi yêu thích: </span><span id="taxi_favorite_brand"></span>, tổng <span id="taxi_mtd_expense_favorite_brand"></span> VNĐ/tháng, <span id="taxi_per_month"></span>lượt/tháng</div>
+                    <div><span class="tittle-name"> giao dịch có ticket lớn nhất: </span><span id="trans_type_biggest_ticket"></span>, trung bình <span id="biggest_ticket_mean"></span>/lượt</div>
+                    
+                    
                 </div>
                 
         </div>
@@ -101,9 +106,9 @@
         }, 200)
      
     })
-    document.getElementById("search-box-input").addEventListener("keypress",async (e) => {
+    document.getElementById("search-box-input").addEventListener("keyup",async (e) => {
         const findRegext = document.getElementById("search-box-input").value
-
+        console.log(findRegext)
         await fetch(`/profile-user/search?value=${findRegext}`, {
             method: "GET",
             headers: {
@@ -138,10 +143,10 @@
            addSuggestUser(element.username, element.phonenumber, element.id)
         });
     }
-    async function loadCustomerProfile(component) {
-        console.log(component)
-        const id = component.id;
+    async function loadCustomerProfile(id) {
         
+
+        console.log(id)
         await fetch(`/profile-user/${id}`, {
             method: "GET",
             headers: {
@@ -172,23 +177,46 @@
     
     const showProfileUser = (data) => {
         console.log(data)
-        document.getElementById("userid").innerHTML = data.id
-        document.getElementById("username").innerHTML = data.username
-        document.getElementById("phonenumber").innerHTML = data.phonenumber
+        document?.getElementById("userid") ? document.getElementById("userid").innerHTML = data.customerid : 1
+        document?.getElementById("username") ?   document.getElementById("username").innerHTML = data.username : 1
+        document?.getElementById("phonenumber") ? document.getElementById("phonenumber").innerHTML = data.phonenumber : 1;
+        document?.getElementById("trans_type_largest_amt") ? document.getElementById("trans_type_largest_amt").innerHTML = (data.trans_type_largest_amt ? data.trans_type_largest_amt : "____") : 1
+        document?.getElementById("taxi_favorite_brand") ? document.getElementById("taxi_favorite_brand").innerHTML = (data.taxi_favorite_brand ? data.taxi_favorite_brand : "___") : 1
+        document?.getElementById("largest_amt_sum") ? document.getElementById("largest_amt_sum").innerHTML = (data.largest_amt_sum ? data.largest_amt_sum : "____") : 1
+        document?.getElementById("taxi_mtd_expense_favorite_brand") ? document.getElementById("taxi_mtd_expense_favorite_brand").innerHTML = (data.taxi_mtd_expense_favorite_brand ? data.taxi_mtd_expense_favorite_brand : "___") : 1
+        document?.getElementById("hometown") ? document.getElementById("hometown").innerHTML = data.hometown : 1
+        document?.getElementById("address") ? document.getElementById("address").innerHTML = data.address : 1
+        document?.getElementById("taxi_per_month") ? document.getElementById("taxi_per_month").innerHTML = (data.taxi_per_month ? data.taxi_per_month : "____") : 1
+        document?.getElementById("gender") ? document.getElementById("gender").innerHTML = data.gender : 1
+        document?.getElementById("hobby") ? document.getElementById("hobby").innerHTML = data.hobby : 1
+        document?.getElementById("biggest_ticket_mean") ? document.getElementById("biggest_ticket_mean").innerHTML = (data.biggest_ticket_mean ? data.biggest_ticket_mean : "____") : 1
+        document?.getElementById("trans_type_biggest_ticket") ? document.getElementById("trans_type_biggest_ticket").innerHTML = (data.trans_type_biggest_ticket ? data.trans_type_biggest_ticket : "____") : 1
+        document?.getElementById("taxi_mtd_expense") ? document.getElementById("taxi_mtd_expense").innerHTML = (data.taxi_mtd_expense ? data.taxi_mtd_expense : "___") : 1
+        document?.getElementById("cccd") ? document.getElementById("cccd").innerHTML = data.cccd : 1
+        document?.getElementById("birthday") ? document.getElementById("birthday").innerHTML = data.birthday : 1
     }
 
     const addSuggestUser = (username, phonenumber, id) => {
+     
         const e = document.createElement("div");
-        e.innerHTML =`
-        <div>${username}</div>
-            <div>${phonenumber}</div>
-        `
-        e.classList="suggest-customer"
-        e.addEventListener("click", (e) => {
-      
-            loadCustomerProfile(e);
+        const usernameElement = document.createElement("div");
+        usernameElement.innerHTML = username
+        usernameElement.addEventListener("click", () => {
+            loadCustomerProfile(id);
         })
+        const phonenumberElement = document.createElement("div");
+        phonenumberElement.innerHTML = phonenumber
+        phonenumberElement.addEventListener("click", () => {
+            loadCustomerProfile(id);
+        })
+        e.append(usernameElement)
+        e.append(phonenumberElement)
+        e.classList="suggest-customer"
         e.id = id;
+        e.addEventListener("click", (event) => {
+            loadCustomerProfile(id);
+        })
+        
        
         document.getElementById("search-suggest-active").append(e);
     }

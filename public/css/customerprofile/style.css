@@ -168,3 +168,19 @@ input{
     color: rgb(82, 82, 82);
     font-weight: bold;
 }
+#profile-user {
+    font-size: 20px;
+    overflow: scroll;
+}
+#profile-user > div >h4 {
+    font-size: 30px;
+    margin: 0px;
+    padding: 0px;
+
+}
+#profile-user > div > div {
+    margin-bottom: 10px;
+}
+.tittle-name {
+    font-weight: bold;
+}
