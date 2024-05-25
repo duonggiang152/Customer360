@@ -62,16 +62,21 @@ input{
     margin-right: 30px;
     border-right: 1px solid rgb(107, 107, 107);
     height: 100%;
+
 }
 .staff-menu > * {
     font-size: 17px;
     margin: 10px 25px;
     font-weight: bold;
 }
+#staff-info {
+    width: 260px;
+}
 .sign-out{
     color: rgb(65, 63, 63);
     cursor: pointer;
-    text-decoration-line: underline
+    text-decoration-line: underline;
+    margin-top: 100px;
 }
 .sign-out:hover{
     transition: color ease 0.5s;
