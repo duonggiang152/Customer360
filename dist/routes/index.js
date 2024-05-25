@@ -32,6 +32,7 @@ const controller = __importStar(require("../controllers/index"));
 const path_1 = __importDefault(require("path"));
 exports.index = (0, express_1.Router)();
 exports.index.use("/login", controller.loginRouter);
+exports.index.use("/profile-user", controller.customerProfileRouter);
 exports.index.get("/*", (req, res) => {
     try {
         const fileDirectory = path_1.default.resolve(process.cwd()) + "/public";

@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 
 export {loginRouter} from "./login";
-
+export {customerProfileRouter} from "./userprofile"
 
 
 

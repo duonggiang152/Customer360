@@ -3,9 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./css/customerprofile/style.css">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <title>Customer 360</title>
 </head>
 <body>
-    <h1>Profile User</h1>
+    <div class="logovpbank"> 
+        <img width="400px"  src="./img/logo.svg" alt="">
+        <div >Customer 360</div>
+    </div>
+    <div class="main-screen">
+        <div class="staff-menu">
+            <div id="staff-info">
+                <div>Nhân viên:</div>
+                <div>Vị trí:</div>
+            </div>
+            <div class="sign-out" id="sign-out-btn">Đăng xuất</div>
+        </div>
+        <div id="profilebox-wrapper">
+            <div id="search-box">
+                <div id="search-suggest-hide"> 
+                    
+                    
+                </div>
+                    <form action="">
+                        <input id="search-box-input" type="text" placeholder="Tên, mã, số điện thoại ...">
+                        <div id="search-user-btn">
+                            Tìm
+                        </div>
+                        
+                    </form>
+            </div>
+            <div id="profile-user">
+                <div> Mã người dùng: 2131232131232 </div>
+                <div> 
+                    <h4>Thông tin chung</h4>
+                    
+                    <div> Họ tên:</div>
+                    <div> Căn cước</div>
+                    <div> Email:</div>
+                    <div> Số điện thoại: </div>
+                    <div> Địa chỉ: </div>
+                </div>
+                <div class="line-1"></div>
+                <div>
+                    <h4>Thông tin tín dụng</h4>
+                    
+                    <div>Đang nợ</div>
+                </div>
+                <div class="line-1"></div>
+                <div>
+                    <h4>Thông tin giao dịch</h4>
+                    
+
+                    <div>Lịch sử giao dịch</div>
+                    <div>Mua hàng tại ....</div>
+                    <div>Mua hàng tại ....</div></div>
+                </div>
+                
+        </div>
+    </div>
+<script>
+    const decodeJwt = () => {
+        const token = localStorage.getItem("accessToken");
+        try {
+        const data = JSON.parse(atob(token.split('.')[1]));
+        return data
+  
+        } catch(err ) {
+            window.location.replace("./login.html")
+        }
+       
+    }
+    const loadStaffInfo = () => {
+        const data = decodeJwt()
+        document.getElementById("staff-info").innerHTML = `
+            <div> Nhân viên: ${data.name} </div>
+            <div> Vị trí: ${data.role} </div>
+        `
+    }
+    loadStaffInfo();
+
+    const logOut = () => {
+        const token = localStorage.setItem("accessToken", null);
+        window.location.replace("./login.html")
+    }
+    document.getElementById("sign-out-btn").addEventListener("click", (e) => {
+        logOut()
+    })
+    document.getElementById("search-box-input").addEventListener("focus", (e) => {
+        document.getElementById("search-suggest-hide").id = "search-suggest-active"
+    })
+    document.getElementById("search-box-input").addEventListener("focusout", (e) => {
+        document.getElementById("search-suggest-active").id = "search-suggest-hide"
+    })
+    document.getElementById("search-box-input").addEventListener("keypress",async (e) => {
+        const findRegext = document.getElementById("search-box-input").value
+
+        await fetch(`/profile-user/search?value=${findRegext}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+            })
+        .then(async res => {
+            if(res.status !== 200) throw await res.json()
+            return await res.json()
+        } 
+        )
+        .then(data => {
+           setSuggestUser(data)
+        })
+        .catch(err => {
+            Toastify({
+                text: "Lỗi server",
+                className: "info",
+                style: {
+                    background: "black",
+                    color: "white"
+                }
+                }).showToast();
+            
+        })
+    })
+    const setSuggestUser = (data) => {
+        const component = document.getElementById("search-suggest-active").innerHTML 
+        document.getElementById("search-suggest-active").innerHTML = "";
+        data.forEach(element => {
+           addSuggestUser(element.username, element.phonenumber)
+        });
+    }
+    const addSuggestUser = (username, phonenumber) => {
+        document.getElementById("search-suggest-active").innerHTML += `<div class="suggest-customer"> <div>${username}</div>  <div>${phonenumber}</div></div>`
+    }
+
+
+</script>
 </body>
 </html>

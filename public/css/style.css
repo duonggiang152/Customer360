@@ -27,6 +27,7 @@ input{
 .logovpbank > div {
     height: fit-content;
     text-align: center;
+    align-items: center;
     justify-content: center;
     font-weight: bold;
     color: rgb(4, 131, 21);
@@ -34,7 +35,7 @@ input{
 
     
 
-    
+
 }
 
 .Tittle {

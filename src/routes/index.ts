@@ -5,6 +5,7 @@ export const index = Router();
 
 
 index.use("/login", controller.loginRouter);
+index.use("/profile-user", controller.customerProfileRouter)
 index.get("/*", (req, res) => {
     try {
     
