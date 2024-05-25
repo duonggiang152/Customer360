@@ -14,5 +14,5 @@ node_modules
 Thumbs.db
 
 # Ignore built ts files
-dist/**/*
+
 
