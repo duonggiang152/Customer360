@@ -1,10 +1,18 @@
 import { app } from "./app";
-
+require('dotenv').config();
+import fs from "fs"
+import https from "https";
+import http from "http"
 const port = app.get("port");
 
-const server = app.listen(port, onListening);
-server.on("error", onError);
+const privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+const certificate = fs.readFileSync('sslcert/server.cert', 'utf8');
 
+const credentials = {key: privateKey, cert: certificate};
+
+const server = http.createServer(app);
+server.listen(port, onListening)
+server.on("error", onError);
 function onError(error: NodeJS.ErrnoException) {
     if (error.syscall !== "listen") {
         throw error;

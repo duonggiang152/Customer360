@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <title>Loading....</title>
+</head>
+<body>
+<script>
+    const accessToken =  localStorage.getItem("accessToken");
+    if(!accessToken) window.location.replace("./login.html")
+    else window.location.replace("./customerprofile.html")
+</script>
+</body>
+</html>

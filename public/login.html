@@ -6,6 +6,8 @@
     <title>Login</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/toast/toastify.css">
+
 </head>
 <body>
     <div class="logovpbank">
@@ -14,21 +16,66 @@
     </div>
     <div class="form-login">
         <div class="Tittle"> Đăng Nhập </div>
-        <form >
+        <form id="login-form" >
             <div class="input">
                 <label>Tài khoản</label>
-                <input type="username" placeholder="Tài khoản">
+                <input type="username" placeholder="Tài khoản" id="username">
             </div>
             <div class="input">
                 <label>Mật khẩu</label>
-                <input type="password" placeholder="Mật khẩu">
+                <input type="password" placeholder="Mật khẩu" id="password">
             </div>
 
-            <div class="btn">Đăng nhập</div>
+            <div class="btn" onclick="login()">Đăng nhập</div>
 
         </form>
     </div>
 
+<script>
+    document.getElementById("login-form").addEventListener("keypress",async (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            login();
+        }
+    })
+    async function  login()  {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        await fetch("/login", {
+            method: "POST",
+            body: JSON.stringify({
+                "username": username,
+                "password": password,
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+            })
+        .then(async res => {
+            if(res.status !== 200) throw await res.json()
+            return await res.json()
+        } 
+        )
+        .then(data => {
+            localStorage.setItem("accessToken", data.accessToken);
+            window.location.replace("./customerprofile.html")
+        })
+        .catch(err => {
+            Toastify({
+                text: err.message,
+                className: "info",
+                style: {
+                    background: "black",
+                    color: "white"
+                }
+                }).showToast();
+            
+        })
+        
+    }
+
+</script>
+<script type="text/javascript" src="./toast/toastify.js"></script>
 </body>
 
 </html>
