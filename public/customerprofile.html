@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/customerprofile/style.css">
     <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/toast/toastify.css">
     <title>Customer 360</title>
 </head>
 <body>
@@ -35,14 +36,14 @@
                     </form>
             </div>
             <div id="profile-user">
-                <div> Mã người dùng: 2131232131232 </div>
+                <div > Mã người dùng: <span id="userid">2131232131232</span> </div>
                 <div> 
                     <h4>Thông tin chung</h4>
                     
-                    <div> Họ tên:</div>
+                    <div> Họ tên: <span id="username"></span></div>
                     <div> Căn cước</div>
                     <div> Email:</div>
-                    <div> Số điện thoại: </div>
+                    <div> Số điện thoại: <span id="phonenumber"></span> </div>
                     <div> Địa chỉ: </div>
                 </div>
                 <div class="line-1"></div>
@@ -95,7 +96,10 @@
         document.getElementById("search-suggest-hide").id = "search-suggest-active"
     })
     document.getElementById("search-box-input").addEventListener("focusout", (e) => {
-        document.getElementById("search-suggest-active").id = "search-suggest-hide"
+        setTimeout(() => {
+            document.getElementById("search-suggest-active").id = "search-suggest-hide"
+        }, 200)
+     
     })
     document.getElementById("search-box-input").addEventListener("keypress",async (e) => {
         const findRegext = document.getElementById("search-box-input").value
@@ -115,6 +119,7 @@
            setSuggestUser(data)
         })
         .catch(err => {
+            console.log(err)
             Toastify({
                 text: "Lỗi server",
                 className: "info",
@@ -130,14 +135,66 @@
         const component = document.getElementById("search-suggest-active").innerHTML 
         document.getElementById("search-suggest-active").innerHTML = "";
         data.forEach(element => {
-           addSuggestUser(element.username, element.phonenumber)
+           addSuggestUser(element.username, element.phonenumber, element.id)
         });
     }
-    const addSuggestUser = (username, phonenumber) => {
-        document.getElementById("search-suggest-active").innerHTML += `<div class="suggest-customer"> <div>${username}</div>  <div>${phonenumber}</div></div>`
+    async function loadCustomerProfile(component) {
+        console.log(component)
+        const id = component.id;
+        
+        await fetch(`/profile-user/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+            })
+        .then(async res => {
+            if(res.status !== 200) throw await res.json()
+            return await res.json()
+        } 
+        )
+        .then(data => {
+           showProfileUser(data)
+        })
+        .catch(err => {
+            console.log(err)
+            Toastify({
+                text: "Lỗi server khi tải dữ liệu profile",
+                className: "info",
+                style: {
+                    background: "black",
+                    color: "white"
+                }
+                }).showToast();
+            
+        })
+    }
+    
+    const showProfileUser = (data) => {
+        console.log(data)
+        document.getElementById("userid").innerHTML = data.id
+        document.getElementById("username").innerHTML = data.username
+        document.getElementById("phonenumber").innerHTML = data.phonenumber
+    }
+
+    const addSuggestUser = (username, phonenumber, id) => {
+        const e = document.createElement("div");
+        e.innerHTML =`
+        <div>${username}</div>
+            <div>${phonenumber}</div>
+        `
+        e.classList="suggest-customer"
+        e.addEventListener("click", (e) => {
+      
+            loadCustomerProfile(e);
+        })
+        e.id = id;
+       
+        document.getElementById("search-suggest-active").append(e);
     }
 
 
 </script>
+<script type="text/javascript" src="./toast/toastify.js"></script>
 </body>
 </html>

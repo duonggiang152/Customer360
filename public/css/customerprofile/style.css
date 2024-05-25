@@ -84,7 +84,10 @@ input{
     position: relative;
 }
 #search-suggest-hide {
-    display: none;
+    position: absolute;
+    z-index: -999999;
+    top: 99999999999999999px;
+   
 }
 #search-suggest-active {
     position: absolute;
